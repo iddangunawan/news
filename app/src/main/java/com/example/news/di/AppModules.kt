@@ -1,5 +1,6 @@
 package com.example.news.di
 
+import com.example.news.network.service.TopHeadlinesService
 import com.example.news.utils.Const
 import dagger.Module
 import dagger.Provides
@@ -42,4 +43,9 @@ class AppModules {
             .client(client)
             .build()
     }
+
+    @Provides
+    fun provideTopHeadlinesService(
+        retrofit: Retrofit
+    ): TopHeadlinesService = retrofit.create(TopHeadlinesService::class.java)
 }
