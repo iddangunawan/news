@@ -61,6 +61,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
+    // Navigation
     implementation("androidx.navigation:navigation-compose:2.7.6")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
@@ -74,6 +75,15 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.48.1")
     implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
     kapt("com.google.dagger:hilt-android-compiler:2.48.1")
+
+    // Network
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+
+    // Paging
+    implementation("androidx.paging:paging-compose:3.2.1")
 }
 
 // Allow references to generated code
