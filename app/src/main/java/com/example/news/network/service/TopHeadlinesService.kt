@@ -11,6 +11,6 @@ interface TopHeadlinesService {
         @Query("country") country: String,
         @Query("pageSize") page: Int,
         @Query("page") pageSize: Int,
-        @Query("q") q: String,
+//        @Query("q") q: String,
     ): TopHeadlinesResponse
 }

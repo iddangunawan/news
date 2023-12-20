@@ -1,5 +1,7 @@
 package com.example.news.di
 
+import com.example.news.domain.repository.TopHeadlinesRepository
+import com.example.news.network.repository.TopHeadlinesRepositoryImpl
 import com.example.news.network.service.TopHeadlinesService
 import com.example.news.utils.Const
 import dagger.Module
@@ -22,6 +24,10 @@ class AppModules {
     @Provides
     @Named("API_KEY")
     fun provideAPIAKey(): String = Const.API_KEY
+
+    @Provides
+    @Named("COUNTRY")
+    fun provideCountry(): String = Const.COUNTRY_ID
 
     @Provides
     @Named("PAGE_SIZE")
@@ -48,4 +54,17 @@ class AppModules {
     fun provideTopHeadlinesService(
         retrofit: Retrofit
     ): TopHeadlinesService = retrofit.create(TopHeadlinesService::class.java)
+
+    @Provides
+    fun provideTopHeadlinesRepository(
+        topHeadlinesService: TopHeadlinesService,
+        @Named("API_KEY") apiKey: String,
+        @Named("COUNTRY") country: String,
+        @Named("PAGE_SIZE") pageSize: Int,
+    ): TopHeadlinesRepository = TopHeadlinesRepositoryImpl(
+        topHeadlinesService = topHeadlinesService,
+        apiKey = apiKey,
+        country = country,
+        pageSize = pageSize,
+    )
 }
