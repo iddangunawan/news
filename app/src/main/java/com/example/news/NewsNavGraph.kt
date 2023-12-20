@@ -10,7 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.news.feature.home.HomeScreen
+import com.example.news.fragment.home.HomeFragment
 import kotlinx.coroutines.CoroutineScope
 
 @Composable
@@ -32,7 +32,7 @@ fun NewsNavGraph(
         modifier = modifier
     ) {
         composable(route = NewsDestinations.HOME_ROUTE) {
-            HomeScreen()
+            HomeFragment()
         }
     }
 }

@@ -61,6 +61,8 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
+    // Constraint layout
+    implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
     // Navigation
     implementation("androidx.navigation:navigation-compose:2.7.6")
     testImplementation("junit:junit:4.13.2")
@@ -84,6 +86,9 @@ dependencies {
 
     // Paging
     implementation("androidx.paging:paging-compose:3.2.1")
+
+    // Browser
+    implementation("androidx.browser:browser:1.7.0")
 }
 
 // Allow references to generated code
