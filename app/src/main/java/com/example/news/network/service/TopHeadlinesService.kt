@@ -9,8 +9,8 @@ interface TopHeadlinesService {
     suspend fun getTopHeadlines(
         @Query("apiKey") apiKey: String,
         @Query("country") country: String,
-        @Query("pageSize") page: Int,
-        @Query("page") pageSize: Int,
-        @Query("q") q: String,
+        @Query("pageSize") pageSize: Int,
+        @Query("page") page: Int,
+        @Query("q") query: String,
     ): TopHeadlinesResponse
 }

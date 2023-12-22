@@ -3,18 +3,14 @@ package com.example.news.fragment.home.screen
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -43,79 +39,78 @@ fun HomeScreen(
     val backgroundColor = MaterialTheme.colorScheme.background.toArgb()
 
     if (articleList == null) return
-    Box(
-        modifier = modifier
-            .fillMaxSize(),
+    LazyVerticalGrid(
+        modifier = modifier,
+        columns = GridCells.Adaptive(minSize = 100.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        LazyVerticalStaggeredGrid(
-            columns = StaggeredGridCells.Adaptive(300.dp),
-            contentPadding = PaddingValues(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            verticalItemSpacing = 24.dp,
-        ) {
-            items(articleList.itemCount) { index ->
-                Card(
-                    onClick = {
-                        // TODO onclick
+        items(articleList.itemCount) { index ->
+            Card(
+                onClick = {
+                    // TODO onclick
 //                    launchCustomChromeTab(
 //                        context,
 //                        Uri.parse(articleList[index]?.url),
 //                        backgroundColor
 //                    )
-                    },
-                    shape = RoundedCornerShape(16.dp),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-                ) {
-                    Column {
-                        // TODO load image
+                },
+                shape = RoundedCornerShape(16.dp),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+            ) {
+                Column {
+                    // TODO load image
 //                    if (!articleList[index]?.urlToImage.isNullOrEmpty()) {
 //                        Row {
 //                            NewsResourceHeaderImage(articleList[index]?.urlToImage)
 //                        }
 //                    }
-                        Box(
-                            modifier = Modifier.padding(16.dp),
-                        ) {
-                            Column {
-                                Spacer(modifier = Modifier.height(12.dp))
-                                Row {
-                                    Text(
-                                        articleList[index]?.title ?: "-",
-                                        style = MaterialTheme.typography.headlineSmall,
-                                    )
-                                    Spacer(modifier = Modifier.weight(1f))
-                                }
-                                Spacer(modifier = Modifier.height(12.dp))
-                                Row(verticalAlignment = Alignment.CenterVertically) {
-                                    Text(
-                                        articleList[index]?.publishedAt ?: "-",
-                                        style = MaterialTheme.typography.labelSmall,
-                                    )
-                                }
-                                Spacer(modifier = Modifier.height(12.dp))
+                    Box(
+                        modifier = Modifier.padding(16.dp),
+                    ) {
+                        Column {
+                            Spacer(modifier = Modifier.height(12.dp))
+                            Row {
+                                Text(
+                                    articleList[index]?.title ?: "-",
+                                    style = MaterialTheme.typography.headlineSmall,
+                                )
+                                Spacer(modifier = Modifier.weight(1f))
                             }
+                            Spacer(modifier = Modifier.height(12.dp))
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Text(
+                                    articleList[index]?.publishedAt ?: "-",
+                                    style = MaterialTheme.typography.labelSmall,
+                                )
+                            }
+                            Spacer(modifier = Modifier.height(12.dp))
                         }
                     }
                 }
             }
-            articleList.apply {
-                item(span = StaggeredGridItemSpan.FullLine, contentType = "bottomSpacing") {
-                    when {
-                        loadState.refresh is LoadState.Loading || loadState.append is LoadState.Loading -> {
-                            LoadingCircular(
-                                modifier = Modifier.fillMaxWidth(),
-                            )
-                        }
+        }
+        articleList.apply {
+            item(
+                span = {
+                    GridItemSpan(maxLineSpan)
+                }
+            ) {
+                when {
+                    loadState.refresh is LoadState.Loading || loadState.append is LoadState.Loading -> {
+                        LoadingCircular(
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                    }
 
-                        loadState.refresh is LoadState.Error || loadState.append is LoadState.Error -> {
-                            ErrorButton(
-                                modifier = Modifier.fillMaxWidth(),
-                                text = "Error get data ..",
-                                onClick = {
-                                    retry()
-                                }
-                            )
-                        }
+                    loadState.refresh is LoadState.Error || loadState.append is LoadState.Error -> {
+                        ErrorButton(
+                            modifier = Modifier.fillMaxWidth(),
+                            text = "Error get data ..",
+                            onClick = {
+                                retry()
+                            }
+                        )
                     }
                 }
             }

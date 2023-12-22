@@ -32,7 +32,7 @@ class TopHeadlinesRepositoryImpl @Inject constructor(
                         country = country,
                         page = pageNext,
                         pageSize = pageSize,
-                        q = query,
+                        query = query,
                     )
                 }
             )

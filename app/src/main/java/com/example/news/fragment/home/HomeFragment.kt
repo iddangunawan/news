@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -17,9 +18,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -38,9 +42,12 @@ fun HomeFragment(
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
+    val articleListStateResponse = homeViewModel.articleListState.collectAsLazyPagingItems()
+
     val categories =
         listOf("business", "entertainment", "general", "health", "science", "sports", "technology")
     val categorySelected by rememberSaveable { mutableStateOf(categories[6]) }
+    var isSearch by remember { mutableStateOf(false) }
 
     Scaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -54,25 +61,37 @@ fun HomeFragment(
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(
-                            "Now in ${categorySelected.capitalize()}",
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                            style = MaterialTheme.typography.titleLarge,
-                            fontWeight = FontWeight.SemiBold
-                        )
-                        IconButton(onClick = { /* do something */ }) {
-                            Icon(
-                                imageVector = Icons.Filled.KeyboardArrowDown,
-                                contentDescription = "Localized description"
+                        if (!isSearch) {
+                            Text(
+                                "Now in ${categorySelected.capitalize()}",
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                                style = MaterialTheme.typography.titleLarge,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                            IconButton(onClick = { /* do something */ }) {
+                                Icon(
+                                    imageVector = Icons.Filled.KeyboardArrowDown,
+                                    contentDescription = "Localized description"
+                                )
+                            }
+                        } else {
+                            Text(
+                                "SEARCH",
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                                style = MaterialTheme.typography.titleLarge,
+                                fontWeight = FontWeight.SemiBold
                             )
                         }
                     }
                 },
                 actions = {
-                    IconButton(onClick = { /* do something */ }) {
+                    IconButton(onClick = {
+                        isSearch = !isSearch
+                    }) {
                         Icon(
-                            imageVector = Icons.Filled.Search,
+                            imageVector = if (!isSearch) Icons.Filled.Search else Icons.Filled.Clear,
                             contentDescription = "Localized description"
                         )
                     }
@@ -83,7 +102,7 @@ fun HomeFragment(
     ) {
         HomeScreen(
             modifier = Modifier.padding(it),
-            articleList = homeViewModel.articleListState.collectAsLazyPagingItems(),
+            articleList = articleListStateResponse,
         )
     }
 }
