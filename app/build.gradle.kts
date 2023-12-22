@@ -89,6 +89,10 @@ dependencies {
 
     // Browser
     implementation("androidx.browser:browser:1.7.0")
+
+    // Coil
+    implementation("io.coil-kt:coil:2.4.0")
+    implementation("io.coil-kt:coil-compose:2.4.0")
 }
 
 // Allow references to generated code

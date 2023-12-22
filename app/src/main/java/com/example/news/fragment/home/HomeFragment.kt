@@ -1,7 +1,6 @@
 package com.example.news.fragment.home
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -18,7 +17,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -42,7 +40,7 @@ fun HomeFragment(
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
-    val articleListStateResponse = homeViewModel.articleListState.collectAsLazyPagingItems()
+    val articleListState = homeViewModel.articleListState.collectAsLazyPagingItems()
 
     val categories =
         listOf("business", "entertainment", "general", "health", "science", "sports", "technology")
@@ -102,7 +100,7 @@ fun HomeFragment(
     ) {
         HomeScreen(
             modifier = Modifier.padding(it),
-            articleList = articleListStateResponse,
+            articleList = articleListState,
         )
     }
 }
