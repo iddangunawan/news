@@ -17,9 +17,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -39,6 +37,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
@@ -59,16 +59,28 @@ fun HomeScreen(
     articleList: LazyPagingItems<Article>? = null,
 ) {
     if (articleList == null) return
-    LazyVerticalStaggeredGrid(
+    LazyColumn(
         modifier = modifier,
-        columns = StaggeredGridCells.Adaptive(300.dp),
+//        columns = StaggeredGridCells.Adaptive(300.dp),
 //        contentPadding = PaddingValues(16.dp),
 //        horizontalArrangement = Arrangement.spacedBy(16.dp),
-//        verticalItemSpacing = 24.dp,
+//        verticalItemSpacing = 16.dp,
     ) {
         items(articleList.itemCount) { index ->
             val context = LocalContext.current
             val backgroundColor = MaterialTheme.colorScheme.background.toArgb()
+
+            val author = articleList[index]?.author ?: "-"
+            val title = articleList[index]?.title ?: "-"
+
+            val annotatedString = buildAnnotatedString {
+                withStyle(style = MaterialTheme.typography.labelLarge.toSpanStyle()) {
+                    append("$author ")
+                }
+                withStyle(style = MaterialTheme.typography.bodyMedium.toSpanStyle()) {
+                    append(title)
+                }
+            }
 
             Card(
                 onClick = {
@@ -83,26 +95,29 @@ fun HomeScreen(
                 modifier = Modifier.animateItemPlacement(),
             ) {
                 Column {
-//                    Row {
-//                        ArticleImage(articleList[index]?.urlToImage)
-//                    }
-                    ArticleImage("https://www.imagelighteditor.com/img/bg-after.jpg")
+                    ArticleImage(articleList[index]?.urlToImage)
+//                    ArticleImage("https://www.imagelighteditor.com/img/bg-after.jpg")
                     Box(
                         modifier = Modifier.padding(8.dp),
                     ) {
                         Column {
-                            Row {
-                                Text(
-                                    articleList[index]?.title ?: "-",
-                                    style = MaterialTheme.typography.headlineSmall,
-                                )
-                                Spacer(modifier = Modifier.weight(1f))
-                            }
+                            Text(
+                                annotatedString,
+                                style = MaterialTheme.typography.bodyMedium,
+                            )
                             Spacer(modifier = Modifier.height(8.dp))
-                            Row(verticalAlignment = Alignment.CenterVertically) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+//                                horizontalArrangement = Arrangement.SpaceBetween,
+                            ) {
                                 Text(
-                                    dateFormat(articleList[index]?.publishedAt ?: "-"),
-                                    style = MaterialTheme.typography.labelSmall,
+                                    "${dateFormat(articleList[index]?.publishedAt ?: " - ")} • ",
+                                    style = MaterialTheme.typography.bodySmall,
+                                )
+                                Text(
+                                    "Source: ${articleList[index]?.source?.name ?: "-"}",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.secondary,
                                 )
                             }
                         }
@@ -111,7 +126,7 @@ fun HomeScreen(
             }
         }
         articleList.apply {
-            item(span = StaggeredGridItemSpan.FullLine) {
+            item {
                 when {
                     loadState.refresh is LoadState.Loading || loadState.append is LoadState.Loading -> {
                         LoadingCircular(modifier = Modifier.fillMaxWidth())
@@ -145,9 +160,7 @@ fun ArticleImage(imageUrl: String?) {
     )
     val isLocalInspection = LocalInspectionMode.current
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(180.dp),
+        modifier = Modifier.fillMaxWidth(),
         contentAlignment = Alignment.Center,
     ) {
         if (isLoading) {
@@ -181,7 +194,7 @@ fun dateFormat(inputDateString: String): String {
     // Parse the input date string
     val inputFormatter = DateTimeFormatter.ISO_DATE_TIME
     val parsedDateTime = LocalDateTime.parse(inputDateString, inputFormatter)
-    val outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+    val outputFormatter = DateTimeFormatter.ofPattern("MMM dd, yyyy")
     return parsedDateTime.format(outputFormatter)
 }
 
