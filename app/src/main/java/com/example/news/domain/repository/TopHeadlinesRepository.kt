@@ -5,5 +5,5 @@ import com.example.news.domain.model.Article
 import kotlinx.coroutines.flow.Flow
 
 interface TopHeadlinesRepository {
-    fun getTopHeadlines(query: String = ""): Flow<PagingData<Article>>
+    fun getTopHeadlines(category: String, query: String = ""): Flow<PagingData<Article>>
 }

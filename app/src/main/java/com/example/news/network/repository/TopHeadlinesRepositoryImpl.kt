@@ -19,7 +19,10 @@ class TopHeadlinesRepositoryImpl @Inject constructor(
     private val pageSize: Int,
 ) : TopHeadlinesRepository {
 
-    override fun getTopHeadlines(query: String): Flow<PagingData<Article>> = Pager(
+    override fun getTopHeadlines(
+        category: String,
+        query: String,
+    ): Flow<PagingData<Article>> = Pager(
         config = PagingConfig(
             pageSize = pageSize,
             enablePlaceholders = true
@@ -32,6 +35,7 @@ class TopHeadlinesRepositoryImpl @Inject constructor(
                         country = country,
                         page = pageNext,
                         pageSize = pageSize,
+                        category = category,
                         query = query,
                     )
                 }

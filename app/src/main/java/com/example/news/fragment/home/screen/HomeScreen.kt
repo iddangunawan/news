@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -59,13 +60,7 @@ fun HomeScreen(
     articleList: LazyPagingItems<Article>? = null,
 ) {
     if (articleList == null) return
-    LazyColumn(
-        modifier = modifier,
-//        columns = StaggeredGridCells.Adaptive(300.dp),
-//        contentPadding = PaddingValues(16.dp),
-//        horizontalArrangement = Arrangement.spacedBy(16.dp),
-//        verticalItemSpacing = 16.dp,
-    ) {
+    LazyColumn(modifier = modifier) {
         items(articleList.itemCount) { index ->
             val context = LocalContext.current
             val backgroundColor = MaterialTheme.colorScheme.background.toArgb()
@@ -95,8 +90,7 @@ fun HomeScreen(
                 modifier = Modifier.animateItemPlacement(),
             ) {
                 Column {
-                    ArticleImage(articleList[index]?.urlToImage)
-//                    ArticleImage("https://www.imagelighteditor.com/img/bg-after.jpg")
+                    ArticleImage(if (!articleList[index]?.urlToImage.isNullOrEmpty()) articleList[index]?.urlToImage else "https://cdn.digitbin.com/wp-content/uploads/how-to-change-default-app-icons-on-mac.jpeg")
                     Box(
                         modifier = Modifier.padding(8.dp),
                     ) {
@@ -176,15 +170,14 @@ fun ArticleImage(imageUrl: String?) {
         Image(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(180.dp),
+                .defaultMinSize(minHeight = 180.dp),
             contentScale = ContentScale.Crop,
             painter = if (isError.not() && !isLocalInspection) {
                 imageLoader
             } else {
                 painterResource(R.drawable.ic_placeholder_default)
             },
-            // TODO b/226661685: Investigate using alt text of  image to populate content description
-            contentDescription = null, // decorative image,
+            contentDescription = "Article Image",
         )
     }
 }
