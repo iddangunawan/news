@@ -1,5 +1,6 @@
 package com.example.news.di
 
+import com.example.news.BuildConfig
 import com.example.news.domain.repository.TopHeadlinesRepository
 import com.example.news.network.repository.TopHeadlinesRepositoryImpl
 import com.example.news.network.service.TopHeadlinesService
@@ -18,24 +19,24 @@ import javax.inject.Named
 @InstallIn(SingletonComponent::class)
 class AppModules {
     @Provides
-    @Named("BASE_URL")
-    fun provideBaseUrl(): String = Const.BASE_URL
+    @Named(Const.Provides.BASE_URL_NEWS)
+    fun provideBaseUrlNews(): String = Const.BASE_URL_NEWS
 
     @Provides
-    @Named("API_KEY")
-    fun provideAPIAKey(): String = Const.API_KEY
+    @Named(Const.Provides.API_KEY_NEWS)
+    fun provideAPIKeyNews(): String = BuildConfig.API_KEY_NEWS
 
     @Provides
-    @Named("COUNTRY")
-    fun provideCountry(): String = Const.COUNTRY_ID
+    @Named(Const.Provides.COUNTRY_NEWS)
+    fun provideCountryNews(): String = Const.COUNTRY_ID
 
     @Provides
-    @Named("PAGE_SIZE")
+    @Named(Const.Provides.PAGE_SIZE)
     fun providePageSize(): Int = Const.PAGE_SIZE
 
     @Provides
-    fun provideRetrofit(
-        @Named("BASE_URL") baseUrl: String,
+    fun provideRetrofitNews(
+        @Named(Const.Provides.BASE_URL_NEWS) baseUrl: String,
     ): Retrofit {
         val client = OkHttpClient
             .Builder()
@@ -58,9 +59,9 @@ class AppModules {
     @Provides
     fun provideTopHeadlinesRepository(
         topHeadlinesService: TopHeadlinesService,
-        @Named("API_KEY") apiKey: String,
-        @Named("COUNTRY") country: String,
-        @Named("PAGE_SIZE") pageSize: Int,
+        @Named(Const.Provides.API_KEY_NEWS) apiKey: String,
+        @Named(Const.Provides.COUNTRY_NEWS) country: String,
+        @Named(Const.Provides.PAGE_SIZE) pageSize: Int,
     ): TopHeadlinesRepository = TopHeadlinesRepositoryImpl(
         topHeadlinesService = topHeadlinesService,
         apiKey = apiKey,

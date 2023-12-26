@@ -1,9 +1,13 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
 }
+
+val apiKeyNews: String = gradleLocalProperties(rootDir).getProperty("API_KEY_NEWS")
 
 android {
     namespace = "com.example.news"
@@ -23,7 +27,11 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField("String", "API_KEY_NEWS", apiKeyNews)
+        }
         release {
+            buildConfigField("String", "API_KEY_NEWS", apiKeyNews)
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -39,6 +47,7 @@ android {
         jvmTarget = "1.8"
     }
     buildFeatures {
+        buildConfig = true
         compose = true
     }
     composeOptions {
