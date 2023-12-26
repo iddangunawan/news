@@ -25,7 +25,7 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _filterArticleListState = MutableStateFlow(FilterArticleListUiState())
-    val filterArticleListState = _filterArticleListState.asStateFlow()
+    private val filterArticleListState = _filterArticleListState.asStateFlow()
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val articleListState: StateFlow<ArticleListUiState> = filterArticleListState.flatMapLatest {

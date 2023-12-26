@@ -9,21 +9,26 @@ import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -39,6 +44,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
@@ -49,6 +55,7 @@ import com.example.news.R
 import com.example.news.domain.model.Article
 import com.example.news.ui.component.ErrorButton
 import com.example.news.ui.component.LoadingCircular
+import com.example.news.utils.Const
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -90,20 +97,21 @@ fun HomeScreen(
                 modifier = Modifier.animateItemPlacement(),
             ) {
                 Column {
-                    ArticleImage(if (!articleList[index]?.urlToImage.isNullOrEmpty()) articleList[index]?.urlToImage else "https://cdn.digitbin.com/wp-content/uploads/how-to-change-default-app-icons-on-mac.jpeg")
-                    Box(
-                        modifier = Modifier.padding(8.dp),
-                    ) {
+                    ArticleImage(
+                        if (!articleList[index]?.urlToImage.isNullOrEmpty()) {
+                            articleList[index]?.urlToImage
+                        } else {
+                            Const.DEFAULT_IMAGE
+                        }
+                    )
+                    Box(modifier = Modifier.padding(8.dp)) {
                         Column {
                             Text(
                                 annotatedString,
                                 style = MaterialTheme.typography.bodyMedium,
                             )
                             Spacer(modifier = Modifier.height(8.dp))
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-//                                horizontalArrangement = Arrangement.SpaceBetween,
-                            ) {
+                            Row {
                                 Text(
                                     "${dateFormat(articleList[index]?.publishedAt ?: " - ")} • ",
                                     style = MaterialTheme.typography.bodySmall,
@@ -134,6 +142,29 @@ fun HomeScreen(
                                 retry()
                             }
                         )
+                    }
+
+                    else -> {
+                        when {
+                            articleList.itemSnapshotList.isEmpty() -> {
+                                Column(
+                                    modifier = Modifier.fillMaxSize(),
+                                    verticalArrangement = Arrangement.Center,
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Filled.Search,
+                                        contentDescription = "Empty Result",
+                                        modifier = Modifier.size(60.dp),
+                                    )
+                                    Text(
+                                        "Search not found !",
+                                        style = MaterialTheme.typography.headlineMedium,
+                                        textAlign = TextAlign.Center,
+                                    )
+                                }
+                            }
+                        }
                     }
                 }
             }
