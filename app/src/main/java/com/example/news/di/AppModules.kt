@@ -1,9 +1,9 @@
 package com.example.news.di
 
 import com.example.news.BuildConfig
-import com.example.news.domain.repository.TopHeadlinesRepository
-import com.example.news.network.repository.TopHeadlinesRepositoryImpl
-import com.example.news.network.service.TopHeadlinesService
+import com.example.news.domain.repository.NewsRepository
+import com.example.news.network.repository.NewsRepositoryImpl
+import com.example.news.network.service.NewsService
 import com.example.news.utils.Const
 import dagger.Module
 import dagger.Provides
@@ -52,18 +52,18 @@ class AppModules {
     }
 
     @Provides
-    fun provideTopHeadlinesService(
+    fun provideNewsService(
         retrofit: Retrofit
-    ): TopHeadlinesService = retrofit.create(TopHeadlinesService::class.java)
+    ): NewsService = retrofit.create(NewsService::class.java)
 
     @Provides
-    fun provideTopHeadlinesRepository(
-        topHeadlinesService: TopHeadlinesService,
+    fun provideNewsRepository(
+        newsService: NewsService,
         @Named(Const.Provides.API_KEY_NEWS) apiKey: String,
         @Named(Const.Provides.COUNTRY_NEWS) country: String,
         @Named(Const.Provides.PAGE_SIZE) pageSize: Int,
-    ): TopHeadlinesRepository = TopHeadlinesRepositoryImpl(
-        topHeadlinesService = topHeadlinesService,
+    ): NewsRepository = NewsRepositoryImpl(
+        newsService = newsService,
         apiKey = apiKey,
         country = country,
         pageSize = pageSize,

@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.news.domain.model.Article
-import com.example.news.domain.repository.TopHeadlinesRepository
+import com.example.news.domain.repository.NewsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -21,7 +21,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    topHeadlinesRepository: TopHeadlinesRepository,
+    newsRepository: NewsRepository,
 ) : ViewModel() {
 
     private val _filterArticleListState = MutableStateFlow(FilterArticleListUiState())
@@ -30,7 +30,7 @@ class HomeViewModel @Inject constructor(
     @OptIn(ExperimentalCoroutinesApi::class)
     val articleListState: StateFlow<ArticleListUiState> = filterArticleListState.flatMapLatest {
         flow {
-            val articleList = topHeadlinesRepository.getTopHeadlines(
+            val articleList = newsRepository.getTopHeadlines(
                 category = it.category,
                 query = it.query,
             ).cachedIn(viewModelScope)
