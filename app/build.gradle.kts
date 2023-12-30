@@ -1,22 +1,22 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    kotlin("kapt")
-    id("com.google.dagger.hilt.android")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kapt)
+    alias(libs.plugins.hilt)
 }
 
 val apiKeyNews: String = gradleLocalProperties(rootDir).getProperty("API_KEY_NEWS")
 
 android {
     namespace = "com.example.news"
-    compileSdk = 34
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
         applicationId = "com.example.news"
-        minSdk = 25
-        targetSdk = 34
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
 
@@ -51,7 +51,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = libs.versions.androidxComposeCompiler.get()
     }
     packaging {
         resources {
@@ -62,48 +62,54 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.12.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
-    implementation("androidx.activity:activity-compose:1.8.2")
-    implementation(platform("androidx.compose:compose-bom:2023.08.00"))
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-graphics")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material3:material3")
+    implementation(project(":core:designsystem"))
+
+    implementation(libs.androidx.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.activity.compose)
+    // Jetpack Compose
+    val composeBom = platform(libs.androidx.compose.bom)
+    implementation(composeBom)
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.ui.graphics)
+    implementation(libs.androidx.compose.ui.tooling.preview)
+    implementation(libs.androidx.compose.material3)
+    // Windows size class
+    implementation(libs.androidx.compose.material3.windowSizeClass)
     // Constraint layout
-    implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
+    implementation(libs.androidx.constraintlayout.compose)
     // Navigation
-    implementation("androidx.navigation:navigation-compose:2.7.6")
+    implementation(libs.androidx.navigation.compose)
     // Datastore
-    implementation("androidx.datastore:datastore-preferences:1.0.0")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    androidTestImplementation(platform("androidx.compose:compose-bom:2023.08.00"))
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")
+    implementation(libs.androidx.datastore.preferences)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(composeBom)
+    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+    debugImplementation(libs.androidx.compose.ui.tooling)
+    debugImplementation(libs.androidx.compose.ui.test.manifest)
 
     // Hilt
-    implementation("com.google.dagger:hilt-android:2.48.1")
-    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
-    kapt("com.google.dagger:hilt-android-compiler:2.48.1")
+    implementation(libs.hilt.android)
+    implementation(libs.androidx.hilt.navigation.compose)
+    kapt(libs.hilt.android.compiler)
 
     // Network
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("com.squareup.okhttp3:okhttp:4.12.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
 
     // Paging
-    implementation("androidx.paging:paging-compose:3.2.1")
+    implementation(libs.androidx.paging.compose)
 
     // Browser
-    implementation("androidx.browser:browser:1.7.0")
+    implementation(libs.androidx.browser)
 
     // Coil
-    implementation("io.coil-kt:coil:2.4.0")
-    implementation("io.coil-kt:coil-compose:2.4.0")
+    implementation(libs.coil)
+    implementation(libs.coil.compose)
 }
 
 // Allow references to generated code
