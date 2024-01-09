@@ -1,6 +1,5 @@
-package com.example.news.ui.theme
+package com.example.news.core.designsystem.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.annotation.ChecksSdkIntAtLeast
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -12,13 +11,9 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
-import androidx.core.view.WindowCompat
 
 val DarkDefaultColorScheme = darkColorScheme(
     primary = md_theme_dark_primary,
@@ -52,33 +47,33 @@ val DarkDefaultColorScheme = darkColorScheme(
     scrim = md_theme_dark_scrim,
 )
 
-//val DarkAndroidColorScheme = darkColorScheme(
-//    primary = Green80,
-//    onPrimary = Green20,
-//    primaryContainer = Green30,
-//    onPrimaryContainer = Green90,
-//    secondary = DarkGreen80,
-//    onSecondary = DarkGreen20,
-//    secondaryContainer = DarkGreen30,
-//    onSecondaryContainer = DarkGreen90,
-//    tertiary = Teal80,
-//    onTertiary = Teal20,
-//    tertiaryContainer = Teal30,
-//    onTertiaryContainer = Teal90,
-//    error = Red80,
-//    onError = Red20,
-//    errorContainer = Red30,
-//    onErrorContainer = Red90,
-//    background = DarkGreenGray10,
-//    onBackground = DarkGreenGray90,
-//    surface = DarkGreenGray10,
-//    onSurface = DarkGreenGray90,
-//    surfaceVariant = GreenGray30,
-//    onSurfaceVariant = GreenGray80,
-//    inverseSurface = DarkGreenGray90,
-//    inverseOnSurface = DarkGreenGray10,
-//    outline = GreenGray60,
-//)
+/*val DarkAndroidColorScheme = darkColorScheme(
+    primary = Green80,
+    onPrimary = Green20,
+    primaryContainer = Green30,
+    onPrimaryContainer = Green90,
+    secondary = DarkGreen80,
+    onSecondary = DarkGreen20,
+    secondaryContainer = DarkGreen30,
+    onSecondaryContainer = DarkGreen90,
+    tertiary = Teal80,
+    onTertiary = Teal20,
+    tertiaryContainer = Teal30,
+    onTertiaryContainer = Teal90,
+    error = Red80,
+    onError = Red20,
+    errorContainer = Red30,
+    onErrorContainer = Red90,
+    background = DarkGreenGray10,
+    onBackground = DarkGreenGray90,
+    surface = DarkGreenGray10,
+    onSurface = DarkGreenGray90,
+    surfaceVariant = GreenGray30,
+    onSurfaceVariant = GreenGray80,
+    inverseSurface = DarkGreenGray90,
+    inverseOnSurface = DarkGreenGray10,
+    outline = GreenGray60,
+)*/
 
 val DarkAndroidGradientColors = GradientColors(container = Color.Black)
 
@@ -116,47 +111,49 @@ val LightDefaultColorScheme = lightColorScheme(
     scrim = md_theme_light_scrim,
 )
 
-//val LightAndroidColorScheme = lightColorScheme(
-//    primary = Green40,
-//    onPrimary = Color.White,
-//    primaryContainer = Green90,
-//    onPrimaryContainer = Green10,
-//    secondary = DarkGreen40,
-//    onSecondary = Color.White,
-//    secondaryContainer = DarkGreen90,
-//    onSecondaryContainer = DarkGreen10,
-//    tertiary = Teal40,
-//    onTertiary = Color.White,
-//    tertiaryContainer = Teal90,
-//    onTertiaryContainer = Teal10,
-//    error = Red40,
-//    onError = Color.White,
-//    errorContainer = Red90,
-//    onErrorContainer = Red10,
-//    background = DarkGreenGray99,
-//    onBackground = DarkGreenGray10,
-//    surface = DarkGreenGray99,
-//    onSurface = DarkGreenGray10,
-//    surfaceVariant = GreenGray90,
-//    onSurfaceVariant = GreenGray30,
-//    inverseSurface = DarkGreenGray20,
-//    inverseOnSurface = DarkGreenGray95,
-//    outline = GreenGray50,
-//)
+/*val LightAndroidColorScheme = lightColorScheme(
+    primary = Green40,
+    onPrimary = Color.White,
+    primaryContainer = Green90,
+    onPrimaryContainer = Green10,
+    secondary = DarkGreen40,
+    onSecondary = Color.White,
+    secondaryContainer = DarkGreen90,
+    onSecondaryContainer = DarkGreen10,
+    tertiary = Teal40,
+    onTertiary = Color.White,
+    tertiaryContainer = Teal90,
+    onTertiaryContainer = Teal10,
+    error = Red40,
+    onError = Color.White,
+    errorContainer = Red90,
+    onErrorContainer = Red10,
+    background = DarkGreenGray99,
+    onBackground = DarkGreenGray10,
+    surface = DarkGreenGray99,
+    onSurface = DarkGreenGray10,
+    surfaceVariant = GreenGray90,
+    onSurfaceVariant = GreenGray30,
+    inverseSurface = DarkGreenGray20,
+    inverseOnSurface = DarkGreenGray95,
+    outline = GreenGray50,
+)*/
 
-val LightAndroidGradientColors = GradientColors(container = LightDefaultColorScheme.inverseOnSurface)
+val LightAndroidGradientColors =
+    GradientColors(container = LightDefaultColorScheme.inverseOnSurface)
 
 val LightAndroidBackgroundTheme = BackgroundTheme(color = LightDefaultColorScheme.inverseOnSurface)
 
 @Composable
 fun NewsTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    androidTheme: Boolean = false,
+//    androidTheme: Boolean = false,
     disableDynamicTheming: Boolean = true,
     content: @Composable () -> Unit
 ) {
     // Color scheme
     val colorScheme = when {
+//        androidTheme -> if (darkTheme) DarkAndroidColorScheme else LightAndroidColorScheme
         !disableDynamicTheming && supportsDynamicTheming() -> {
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
@@ -172,7 +169,7 @@ fun NewsTheme(
         container = colorScheme.surface,
     )
     val gradientColors = when {
-        androidTheme -> if (darkTheme) DarkAndroidGradientColors else LightAndroidGradientColors
+//        androidTheme -> if (darkTheme) DarkAndroidGradientColors else LightAndroidGradientColors
         !disableDynamicTheming && supportsDynamicTheming() -> emptyGradientColors
         else -> defaultGradientColors
     }
@@ -182,23 +179,23 @@ fun NewsTheme(
         tonalElevation = 2.dp,
     )
     val backgroundTheme = when {
-        androidTheme -> if (darkTheme) DarkAndroidBackgroundTheme else LightAndroidBackgroundTheme
+//        androidTheme -> if (darkTheme) DarkAndroidBackgroundTheme else LightAndroidBackgroundTheme
         else -> defaultBackgroundTheme
     }
     val tintTheme = when {
-        androidTheme -> TintTheme()
+//        androidTheme -> TintTheme()
         !disableDynamicTheming && supportsDynamicTheming() -> TintTheme(colorScheme.primary)
         else -> TintTheme()
     }
-    val view = LocalView.current
-    if (!view.isInEditMode) {
-        SideEffect {
-            val window = (view.context as Activity).window
-            window.statusBarColor = Color.Transparent.toArgb()
-            window.navigationBarColor = Color.Transparent.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
-        }
-    }
+//    val view = LocalView.current
+//    if (!view.isInEditMode) {
+//        SideEffect {
+//            val window = (view.context as Activity).window
+//            window.statusBarColor = Color.Transparent.toArgb()
+//            window.navigationBarColor = Color.Transparent.toArgb()
+//            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
+//        }
+//    }
     // Composition locals
     CompositionLocalProvider(
         LocalGradientColors provides gradientColors,

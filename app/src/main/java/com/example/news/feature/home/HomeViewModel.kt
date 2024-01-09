@@ -1,4 +1,4 @@
-package com.example.news.viewmodel
+package com.example.news.feature.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -35,6 +35,7 @@ class HomeViewModel @Inject constructor(
                 query = it.query,
             ).cachedIn(viewModelScope)
             emit(ArticleListUiState(articleList = articleList))
+//            emit(ArticleListUiState()) // DEBUG
         }
     }.stateIn(
         viewModelScope,

@@ -64,7 +64,7 @@ dependencies {
 
     implementation(project(":core:designsystem"))
 
-    implementation(libs.androidx.ktx)
+    implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
     // Jetpack Compose
@@ -74,8 +74,6 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
-    // Windows size class
-    implementation(libs.androidx.compose.material3.windowSizeClass)
     // Constraint layout
     implementation(libs.androidx.constraintlayout.compose)
     // Navigation

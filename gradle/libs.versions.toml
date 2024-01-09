@@ -2,27 +2,27 @@
 activityCompose = "1.8.2"
 androidxComposeBom = "2023.10.01"
 browser = "1.7.0"
-coil = "2.4.0"
+coil = "2.5.0"
 compileSdk = "34"
 constraintlayoutCompose = "1.0.1"
-coreKtx = "1.12.0"
+androidxCore = "1.12.0"
 datastorePreferences = "1.0.0"
 espressoCore = "3.5.1"
-hiltAndroid = "2.48.1"
+hiltAndroid = "2.50"
 hiltNavigationCompose = "1.1.0"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 lifecycleRuntimeKtx = "2.6.2"
-minSdk = "25"
+minSdk = "26"
 navigationCompose = "2.7.6"
 okhttp = "4.12.0"
 pagingCompose = "3.2.1"
 retrofit = "2.9.0"
 targetSdk = "34"
-androidGradlePlugin = "8.2.0"
+androidGradlePlugin = "8.2.1"
 androidxComposeCompiler = "1.5.7"
 kotlin = "1.9.21"
-hilt = "2.48.1"
+hilt = "2.50"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
@@ -35,13 +35,12 @@ androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "u
 androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
-androidx-compose-material3-windowSizeClass = { group = "androidx.compose.material3", name = "material3-window-size-class" }
 androidx-constraintlayout-compose = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "constraintlayoutCompose" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCore" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 androidx-junit = { module = "androidx.test.ext:junit", version.ref = "junitVersion" }
-androidx-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
 androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "pagingCompose" }
